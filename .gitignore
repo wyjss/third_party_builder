@@ -1,0 +1,8 @@
+/depends
+/*副本*
+/projects/downloads
+/projects/readme.txt
+/py/__pycache__
+/py/boost.txt
+/py/compile_all_project.py
+/*.txt

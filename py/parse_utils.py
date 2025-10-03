@@ -26,7 +26,12 @@ def parse_project_config_file(file_path: str) -> Dict[str, Any]:
         for option in config.options('config'):
             value = config.get('config', option)
             result[option] = value
-
+    # 读取上次的结果
+    if 'config_out' in config:
+        for option in config.options('config_out'):
+            value = config.get('config_out', option)
+            result[option] = value
+            
     if not result.get('install_name'):
         result['install_name'] = 'all'
         print('[{}] set default install name all'.format(name))
@@ -45,8 +50,12 @@ def write_project_config_file(project_config):
     config = configparser.ConfigParser()
     config.optionxform = str
     config.read(project_config['ini'])
-    config.set('config', 'source_name', project_config['source_name'])
-    config.set('config', 'install_name', project_config['install_name'])
+    if 'config_out' not in config:
+        config.add_section('config_out')
+        
+    config.set('config_out', 'source_name', project_config['source_name'])
+    config.set('config_out', 'install_name', project_config['install_name'])
+    config.set('config_out', 'cache_url', project_config['cache_url'])
     # 关键步骤：将配置写入文件
     with open(project_config['ini'], 'w') as configfile:
         config.write(configfile)
@@ -139,6 +148,7 @@ def extract_file(archive_path, extract_to):
         with zipfile.ZipFile(archive_path, 'r') as zip_ref:
             file_list = zip_ref.namelist()
             root_file = file_list[0]
+            print(f'extract_to {extract_to}')
             zip_ref.extractall(extract_to)
         print(f"ZIP 文件已解压到: {extract_to}")
     
@@ -171,8 +181,10 @@ def find_file_with_name(file_dir, name):
         return ''
     
     for entry in os.listdir(file_dir):
+        # 忽略大写
+        entry_to_compare = entry.lower()
         # 检查是否以name开头且是文件（不是目录）
-        if entry.startswith(name) and os.path.isfile(os.path.join(file_dir, entry)):
+        if entry_to_compare.startswith(name) and os.path.isfile(os.path.join(file_dir, entry)):
             # 获取绝对路径并添加到结果列表
             return os.path.abspath(os.path.join(file_dir, entry))
     

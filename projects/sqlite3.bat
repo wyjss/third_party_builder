@@ -3,9 +3,14 @@ echo MY_VAR=%INSTALL_PATH%
 call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvars64.bat"
 
 cd ..
-cl -Os -O2 -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_COLUMN_METADATA shell.c sqlite3.c -Fesqlite3.exe
-lib sqlite3.obj
-link -dll sqlite3.obj
+
+IF NOT EXIST "sqlite3.dll" (
+	cl -Os -O2 -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_COLUMN_METADATA shell.c sqlite3.c -Fesqlite3.exe
+	lib sqlite3.obj
+	link -dll sqlite3.obj
+）ELSE(
+
+)
 
 set MY_INSTALL=%INSTALL_PATH%
 set "MY_INSTALL=%MY_INSTALL:/=\%"
