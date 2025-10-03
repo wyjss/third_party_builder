@@ -5,6 +5,7 @@ import urllib.parse
 import urllib.request
 import shutil
 import zipfile
+import tarfile
 from pathlib import Path
 import re
 
@@ -144,7 +145,9 @@ def extract_file(archive_path, extract_to):
     """
     os.makedirs(extract_to, exist_ok=True)
     root_file = ''
-    if zipfile.is_zipfile(archive_path):
+    is_zip = zipfile.is_zipfile(archive_path)
+
+    if is_zip:
         with zipfile.ZipFile(archive_path, 'r') as zip_ref:
             file_list = zip_ref.namelist()
             root_file = file_list[0]
