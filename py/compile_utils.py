@@ -3,12 +3,14 @@ import subprocess
 import sys
 import parse_utils
 
+PROGRAM_ROOT = 'D:/Program/'
+sys.platform.startswith("linux"):
+    PROGRAM_ROOT = '/data/wyj2/Program/'
 
-DEFAULT_SOURCE_DIR = 'D:/Program/third_party_src'
-DEFAULT_PROJECT_CONFIG_DIR = 'D:/Program/third_party_builder/projects'
-DEFAULT_DOWNLOAD_CACHE_DIR = 'D:/Program/third_party_builder/projects/downloads'
-
-DEFAULT_INSTALL_DIR = 'D:/Program/third_party'
+DEFAULT_SOURCE_DIR = PROGRAM_ROOT + 'third_party_src'
+DEFAULT_PROJECT_CONFIG_DIR = PROGRAM_ROOT + 'third_party_builder/projects'
+DEFAULT_DOWNLOAD_CACHE_DIR = PROGRAM_ROOT + 'third_party_builder/projects/downloads'
+DEFAULT_INSTALL_DIR = PROGRAM_ROOT + 'third_party'
 
 DEFAULT_BUILD_DIR_NAME = 'build_auto'
 DEFAULT_CMAKE_OPTIONS = []
