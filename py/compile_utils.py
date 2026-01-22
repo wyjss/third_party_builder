@@ -4,7 +4,7 @@ import sys
 import parse_utils
 
 PROGRAM_ROOT = 'D:/Program/'
-sys.platform.startswith("linux"):
+if sys.platform.startswith("linux"):
     PROGRAM_ROOT = '/data/wyj2/Program/'
 
 DEFAULT_SOURCE_DIR = PROGRAM_ROOT + 'third_party_src'
